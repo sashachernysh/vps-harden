@@ -183,15 +183,15 @@ function update_upgrade() {
     echo -e -n "${nocolor}"
     update-grub-legacy-ec2 -y | tee -a "$LOGFILE"
     echo -e -n "${white}"
-    echo '# apt-get -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true update' | tee -a "$LOGFILE"
+    echo '# apt-fast -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true update' | tee -a "$LOGFILE"
     echo -e "--------------------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e -n "${nocolor}"
-    apt-get -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true update | tee -a "$LOGFILE"
+    apt-fast -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true update | tee -a "$LOGFILE"
     echo -e -n "${white}"
     echo -e "----------------------------------------------------------------------------- " | tee -a "$LOGFILE"
-    echo ' # apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install figlet' | tee -a "$LOGFILE"
+    echo ' # apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install figlet' | tee -a "$LOGFILE"
     echo -e -n "${nocolor}"
-    apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install figlet | tee -a "$LOGFILE"
+    apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install figlet | tee -a "$LOGFILE"
     echo -e -n "${lightgreen}"
     echo -e "--------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e " $(date +%m.%d.%Y_%H:%M:%S) : SYSTEM UPDATED SUCCESSFULLY " | tee -a "$LOGFILE"
@@ -204,10 +204,10 @@ function update_upgrade() {
     echo -e " $(date +%m.%d.%Y_%H:%M:%S) : INITIATING SYSTEM UPGRADE " | tee -a "$LOGFILE"
     echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e -n "${white}"
-    echo ' # apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y' | tee -a "$LOGFILE"
+    echo ' # apt-fast -o Dpkg::Options::="--force-confold" upgrade -q -y' | tee -a "$LOGFILE"
     echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e -n "${nocolor}"
-    apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y | tee -a "$LOGFILE"
+    apt-fast -o Dpkg::Options::="--force-confold" upgrade -q -y | tee -a "$LOGFILE"
     echo -e -n "${lightgreen}"
     echo -e "---------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e " $(date +%m.%d.%Y_%H:%M:%S) : SYSTEM UPGRADED SUCCESSFULLY " | tee -a "$LOGFILE"
@@ -228,12 +228,12 @@ function favored_packages() {
     echo -e " $(date +%m.%d.%Y_%H:%M:%S) : INSTALLING FAVORED PACKAGES " | tee -a "$LOGFILE"
     echo -e "--------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e -n "${white}"
-    echo ' # apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install ' | tee -a "$LOGFILE"
+    echo ' # apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install ' | tee -a "$LOGFILE"
     echo '   htop nethogs ufw fail2ban wondershaper glances ntp figlet lsb-release ' | tee -a "$LOGFILE"
     echo '   update-motd unattended-upgrades secure-delete net-tools dnsutils' | tee -a "$LOGFILE"
     echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e -n "${nocolor}"
-    apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install \
+    apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install \
         htop nethogs ufw fail2ban wondershaper glances ntp figlet lsb-release \
         update-motd unattended-upgrades secure-delete net-tools dnsutils | tee -a "$LOGFILE"
     echo -e -n "${lightgreen}"
@@ -291,7 +291,7 @@ function crypto_packages() {
         add-apt-repository -yu ppa:bitcoin/bitcoin | tee -a "$LOGFILE"
         echo -e -n "${white}"
         echo -e "---------------------------------------------------------------------- " | tee -a "$LOGFILE"
-        echo ' # apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install ' | tee -a "$LOGFILE"
+        echo ' # apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install ' | tee -a "$LOGFILE"
         echo '   build-essential g++ protobuf-compiler libboost-all-dev autotools-dev ' | tee -a "$LOGFILE"
         echo '   automake libcurl4-openssl-dev libboost-all-dev libssl-dev libdb++-dev ' | tee -a "$LOGFILE"
         echo '   make autoconf automake libtool git apt-utils libprotobuf-dev pkg-config ' | tee -a "$LOGFILE"
@@ -302,13 +302,13 @@ function crypto_packages() {
         echo -e " This step can appear to hang for a minute or two so don't be alarmed "
         echo -e "---------------------------------------------------------------------- "
         echo -e -n "${nocolor}"
-        apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install \
+        apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install \
             build-essential g++ protobuf-compiler libboost-all-dev autotools-dev \
             automake libcurl4-openssl-dev libboost-all-dev libssl-dev libdb++-dev \
             make autoconf automake libtool git apt-utils libprotobuf-dev pkg-config \
             libcurl3-dev libudev-dev libqrencode-dev bsdmainutils pkg-config libssl-dev \
             libgmp3-dev libevent-dev jp2a pv virtualenv lsb-release update-motd  | tee -a "$LOGFILE"
-			
+      
         # need more testing to see if autoremove breaks the script or not
         # apt autoremove -y | tee -a "$LOGFILE"
         clear
@@ -317,7 +317,7 @@ function crypto_packages() {
         echo -e " $(date +%m.%d.%Y_%H:%M:%S) : CRYPTO INSTALLED SUCCESFULLY " | tee -a "$LOGFILE"
         echo -e "---------------------------------------------------- " | tee -a "$LOGFILE"
         echo -e -n "${nocolor}"
-    else 	echo -e -n "${yellow}"
+    else  echo -e -n "${yellow}"
         clear
         echo  -e "----------------------------------------------------- " >> $LOGFILE 2>&1
         echo  "    ** User chose not to install crypto packages **" >> $LOGFILE 2>&1
@@ -411,7 +411,7 @@ function add_user() {
             fi
             clear
         fi
-    else 	echo -e -n "${yellow}"
+    else  echo -e -n "${yellow}"
         clear
         echo  -e "----------------------------------------------------- " >> $LOGFILE 2>&1
         echo  "    ** User chose not to create a new user **" >> $LOGFILE 2>&1
@@ -553,7 +553,7 @@ function prompt_rootlogin {
                 echo -e "---------------------------------------------------- " | tee -a "$LOGFILE"
                 echo -e -n "${nocolor}"
             fi
-        else  	echo -e -n "${yellow}"
+        else    echo -e -n "${yellow}"
             echo -e "------------------------------------------------------------- " | tee -a "$LOGFILE"
             echo "It looks like you want to enable root login; making it so..." | tee -a "$LOGFILE"
             sed -i "s/.*PermitRootLogin.*/PermitRootLogin yes/" $SSHDFILE >> $LOGFILE 2>&1
@@ -561,7 +561,7 @@ function prompt_rootlogin {
             echo -e -n "${nocolor}"
         fi
         ROOTLOGINP=$(sed -n -e '/^PermitRootLogin /p' $SSHDFILE)
-    else 	echo -e -n "${yellow}"
+    else  echo -e -n "${yellow}"
         echo -e "---------------------------------------------------- "
         echo " Since you chose not to create a non-root user, "
         echo " I did not disable root login for obvious reasons."
@@ -709,9 +709,9 @@ function ufw_config() {
         echo -e "${nocolor}\n"
     
     if [ "${FIREWALLP,,}" = "Y" ] || [ "${FIREWALLP,,}" = "y" ]
-    then	echo -e -n "${nocolor}"
+    then  echo -e -n "${nocolor}"
         # make sure ufw is installed #
-        apt-get install ufw -qqy >> $LOGFILE 2>&1
+        apt-fast install ufw -qqy >> $LOGFILE 2>&1
         # add firewall rules
         echo -e -n "${white}"
         echo -e "------------------------------------------- " | tee -a "$LOGFILE"
@@ -727,7 +727,7 @@ function ufw_config() {
         echo -e -n "${nocolor}"
         sleep 1
         # wait until after SSHD is restarted to enable firewall to not break SSH
-    else	echo -e -n "${yellow}"
+    else  echo -e -n "${yellow}"
         echo -e "---------------------------------------------------- " | tee -a "$LOGFILE"
         echo -e " ** User chose not to setup firewall at this time **"  | tee -a "$LOGFILE"
         echo -e "---------------------------------------------------- \n" | tee -a "$LOGFILE"
@@ -784,7 +784,7 @@ function server_hardening() {
         echo -e ' --> Adding line to bottom of file /etc/fstab'  | tee -a "$LOGFILE"
         echo -e ' tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0' | tee -a "$LOGFILE"
         echo -e "---------------------------------------------------- \n" | tee -a "$LOGFILE"
-        sleep 2	; #  dramatic pause
+        sleep 2 ; #  dramatic pause
         # only add line if line does not already exist in /etc/fstab
         if grep -q "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" /etc/fstab; then :
         else echo 'tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0' >> /etc/fstab
@@ -798,7 +798,7 @@ function server_hardening() {
         echo -e -n "${white}"
         echo -e " Replace /etc/ufw/before.rules with hardened rules " | tee -a "$LOGFILE"
         echo -e "---------------------------------------------------- \n " | tee -a "$LOGFILE"
-        sleep 2	; #  dramatic pause
+        sleep 2 ; #  dramatic pause
         cat etc/ufw/before.rules > /etc/ufw/before.rules
 
         # harden the networking layer
@@ -809,7 +809,7 @@ function server_hardening() {
         echo -e -n "${white}"
         echo -e " --> Secure /etc/sysctl.conf with hardening rules " | tee -a "$LOGFILE"
         echo -e "---------------------------------------------------- \n " | tee -a "$LOGFILE"
-        sleep 2	; #  dramatic pause
+        sleep 2 ; #  dramatic pause
         cat etc/sysctl.conf > /etc/sysctl.conf
 
         # enable automatic security updates
@@ -820,7 +820,7 @@ function server_hardening() {
         echo -e -n "${white}"
         echo -e " Configure system to auto install security updates " | tee -a "$LOGFILE"
         echo -e "---------------------------------------------------- \n " | tee -a "$LOGFILE"
-        sleep 2	; #  dramatic pause
+        sleep 2 ; #  dramatic pause
 
         . /etc/os-release
         if [[ "${VERSION_ID}" = "16.04" ]] 
@@ -833,13 +833,13 @@ function server_hardening() {
 
         # Error Handling
         if [ $? -eq 0 ]
-        then 	echo -e " \n" ; clear
+        then  echo -e " \n" ; clear
             echo -e -n "${green}"
             echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
             echo " $(date +%m.%d.%Y_%H:%M:%S) : SUCCESS : Server Hardened" | tee -a "$LOGFILE"
             echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
             echo -e -n "${nocolor}"
-        else	clear
+        else  clear
             echo -e -n "${lightred}"
             echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
             echo " $(date +%m.%d.%Y_%H:%M:%S) : ERROR: Hardening Failed" | tee -a "$LOGFILE"
@@ -898,7 +898,7 @@ function google_auth() {
         echo -e -n "${white}"
 
         echo -e -n "${nocolor}"
-        apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install libpam-google-authenticator | tee -a "$LOGFILE"
+        apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install libpam-google-authenticator | tee -a "$LOGFILE"
         google-authenticator
 
         echo -e ' --> Enabling Google Authenticator in /etc/pam.d/sshd'  | tee -a "$LOGFILE"
@@ -924,13 +924,13 @@ function google_auth() {
 
         # Error Handling
         if [ $? -eq 0 ]
-        then 	echo -e " \n" ; clear
+        then  echo -e " \n" ; clear
             echo -e -n "${green}"
             echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
             echo " $(date +%m.%d.%Y_%H:%M:%S) : SUCCESS : 2FA Installed" | tee -a "$LOGFILE"
             echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
             echo -e -n "${nocolor}"
-        else	clear
+        else  clear
             echo -e -n "${lightred}"
             echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
             echo " $(date +%m.%d.%Y_%H:%M:%S) : ERROR: 2FA Failed" | tee -a "$LOGFILE"
@@ -998,14 +998,14 @@ function ksplice_install() {
         echo -e " $(date +%m.%d.%Y_%H:%M:%S) : INSTALLING KSPLICE PACKAGES " | tee -a "$LOGFILE"
         echo -e "--------------------------------------------------- " | tee -a "$LOGFILE"
         echo -e -n "${white}"
-        echo ' # apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install ' | tee -a "$LOGFILE"
+        echo ' # apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install ' | tee -a "$LOGFILE"
         echo '   libgtk2-perl consolekit iproute libck-connector0 libcroco3 libglade2-0 ' | tee -a "$LOGFILE"
         echo '   libpam-ck-connector librsvg2-2 librsvg2-common python-cairo python-gtk2 ' | tee -a "$LOGFILE"
         echo '   python-dbus python-gi python-glade2 python-gobject-2 python-pycurl ' | tee -a "$LOGFILE"
         echo '   python-yaml dbus-x11 python-six python3-yaml ' | tee -a "$LOGFILE"
         echo -e "--------------------------------------------------- " | tee -a "$LOGFILE"
         echo -e -n "${nocolor}"
-        apt-get -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install \
+        apt-fast -qqy -o=Dpkg::Use-Pty=0 -o=Acquire::ForceIPv4=true install \
             libgtk2-perl consolekit iproute libck-connector0 libcroco3 libglade2-0 \
             libpam-ck-connector librsvg2-2 librsvg2-common python-cairo python-gtk2 \
             python-dbus python-gi python-glade2 python-gobject-2 python-pycurl \
@@ -1043,14 +1043,14 @@ function ksplice_install() {
             echo -e " $(date +%m.%d.%Y_%H:%M:%S) : KSPLICE UPDATES INSTALLED" | tee -a "$LOGFILE"
             echo -e "------------------------------------------------- \n" | tee -a "$LOGFILE"
             echo -e -n "${nocolor}"
-            sleep 1	; #  dramatic pause
+            sleep 1 ; #  dramatic pause
             clear
             echo -e -n "${lightgreen}"
             echo -e "------------------------------------------------- " | tee -a "$LOGFILE"
             echo " $(date +%m.%d.%Y_%H:%M:%S) : SUCCESS : Ksplice Enabled" | tee -a "$LOGFILE"
             echo -e "------------------------------------------------- \n" | tee -a "$LOGFILE"
             echo -e -n "${nocolor}"
-        else  	echo -e -n "${lightred}"
+        else    echo -e -n "${lightred}"
             clear
             echo -e "-------------------------------------------------------- " | tee -a "$LOGFILE"
             echo " $(date +%m.%d.%Y_%H:%M:%S) : FAIL : Ksplice was not Installed" | tee -a "$LOGFILE"
@@ -1105,8 +1105,8 @@ function motd_install() {
     # check if MOTDP is affirmative
     if [ "${MOTDP,,}" = "Y" ] || [ "${MOTDP,,}" = "y" ]
     then
-        sudo apt-get -o Acquire::ForceIPv4=true update -y
-        sudo apt-get -o Acquire::ForceIPv4=true install lsb-release update-motd curl -y
+        sudo apt-fast -o Acquire::ForceIPv4=true update -y
+        sudo apt-fast -o Acquire::ForceIPv4=true install lsb-release update-motd curl -y
         rm -r /etc/update-motd.d/
         mkdir /etc/update-motd.d/
         touch /etc/update-motd.d/00-header ; touch /etc/update-motd.d/10-sysinfo ; touch /etc/update-motd.d/90-footer ; touch /etc/update-motd.d/99-esm
@@ -1183,7 +1183,7 @@ function restart_sshd() {
         fi
         # Error Handling
         if [ $? -eq 0 ]
-        then 	echo -e -n "${lightgreen}"
+        then  echo -e -n "${lightgreen}"
             echo -e "------------------------------------------------------ " | tee -a "$LOGFILE"
             echo " $(date +%m.%d.%Y_%H:%M:%S) : SUCCESS : SSHD restart complete" | tee -a "$LOGFILE"
             echo -e "------------------------------------------------------ " | tee -a "$LOGFILE"
@@ -1227,7 +1227,7 @@ function install_complete() {
     echo -e "---------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e "  * * * Save these important login variables! * * *  " | tee -a "$LOGFILE"
     echo -e "---------------------------------------------------- ${yellow}" | tee -a "$LOGFILE"
-    echo -e " --> Your SSH port for remote access is" "$SSHPORTIS"	| tee -a "$LOGFILE"
+    echo -e " --> Your SSH port for remote access is" "$SSHPORTIS"  | tee -a "$LOGFILE"
     echo -e " --> Root login settings are:" "$ROOTLOGINP" | tee -a "$LOGFILE"
 
     if [ "${INSTALLCRYPTO,,}" = "yes" ] || [ "${INSTALLCRYPTO,,}" = "y" ]
@@ -1253,7 +1253,7 @@ function install_complete() {
     echo -e "${yellow}-------------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e " Installation log saved to" $LOGFILE | tee -a "$LOGFILE"
     echo -e " Before modification, your SSH config was backed up to" | tee -a "$LOGFILE"
-    echo -e " --> $SSHDFILE.$BTIME.bak"				| tee -a "$LOGFILE"
+    echo -e " --> $SSHDFILE.$BTIME.bak"       | tee -a "$LOGFILE"
     echo -e "${lightred} ---------------------------------------------------- " | tee -a "$LOGFILE"
     echo -e " | NOTE: Please create a new connection to test SSH | " | tee -a "$LOGFILE"
     echo -e " |       settings before you close this session     | " | tee -a "$LOGFILE"
